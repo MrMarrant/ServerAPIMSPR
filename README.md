@@ -2,7 +2,8 @@
 
 # Module Nécéssaire
 
-npm i express --save
+npm i express --save <br>
+npm i sequelize --save
 
 # Lancer le Serveur 
 
