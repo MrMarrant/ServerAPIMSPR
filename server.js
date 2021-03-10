@@ -5,9 +5,10 @@ var apiRouter = require('./apiRouter').router;
 
 var server = express();
 
+console.log('yo');
 server.use(bodyParser.urlencoded({ extended: true}));
 server.use(bodyParser.json());
-
+console.log('lol');
 server.get('/', function (req, res){
 
     res.setHeader('Content-Type','text/html');
