@@ -1,4 +1,4 @@
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 5000;
 var express = require("express");
 var bodyParser = require('body-parser');
 var apiRouter = require('./apiRouter').router;
