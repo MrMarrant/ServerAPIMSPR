@@ -1,9 +1,9 @@
 module.exports ={
     "development": {
-        "username": "hccu9ppg6pvtx0ra",
-        "password": "vvggfya223ulaf1h",
-        "database": "l4xh2ghh46cfvdg2",
-        "host": "f80b6byii2vwv8cx.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+        "username": "f80b6byii2vwv8cx.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+        "password": "hccu9ppg6pvtx0ra",
+        "database": "vvggfya223ulaf1h",
+        "host": "l4xh2ghh46cfvdg2",
         "dialect": "mariadb"
     },
     "test": {
