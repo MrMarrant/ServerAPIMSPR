@@ -16,12 +16,7 @@ module.exports = {
         var prenom = req.body.prenom; 
         var email = req.body.email; 
         var password = req.body.password; 
-
-        var mariadb = require('mariadb');
-
-        var connection = mariadb.createConnection(process.env.JAWSDB_URL);
         
-
         if (email == null || nom == null || prenom == null || password == null) {
             return res.status(400).json({"error": "Paramètres Manquant"});
         }
