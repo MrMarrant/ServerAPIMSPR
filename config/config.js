@@ -1,20 +1,20 @@
 module.exports ={
     "development": {
-        "username": "f80b6byii2vwv8cx.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-        "password": "hccu9ppg6pvtx0ra",
-        "database": "vvggfya223ulaf1h",
-        "host": "l4xh2ghh46cfvdg2",
-        "dialect": "mariadb"
+        "username": "d3y0lbg7abxmbuoi.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+        "password": "a558swrtox429fmp",
+        "database": "q452du1luku22uf7",
+        "host": "nq1ybf7nwz7si6yu",
+        "dialect": "mysql"
     },
     "test": {
         "username": "root",
         "password": null,
         "database": "database_test",
         "host": "127.0.0.1",
-        "dialect": "mariadb"
+        "dialect": "mysql"
     },
     "production": {
-        "use_env_variable": "DATABASE_URL",
-        "dialect": "mariadb"
+        "use_env_variable": "JAWSDB_URL",
+        "dialect": "mysql"
     }
 }
