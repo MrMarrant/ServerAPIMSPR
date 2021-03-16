@@ -17,9 +17,9 @@ module.exports = {
         var email = req.body.email; 
         var password = req.body.password; 
 
-        var mariadb = require('mariadb');
+        var mysql = require('mysql');
 
-        var connection = mariadb.createConnection(process.env.JAWSDB_URL);
+        var connection = mysql.createConnection(process.env.JAWSDB_URL);
         
 
         if (email == null || nom == null || prenom == null || password == null) {
