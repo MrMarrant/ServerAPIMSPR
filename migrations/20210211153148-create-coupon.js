@@ -20,6 +20,9 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
+      userId: {
+        type: Sequelize.INTEGER
+      },
       reduction: {
         type: Sequelize.FLOAT
       },

@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     dateDebut: DataTypes.DATE,
     dateExpiration: DataTypes.DATE,
     productId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     reduction: DataTypes.FLOAT
   }, {
     sequelize,
