@@ -17,9 +17,9 @@ module.exports = {
         var email = req.body.email; 
         var password = req.body.password; 
 
-        var mysql = require('mysql');
+        var mariadb = require('mariadb');
 
-        var connection = mysql.createConnection(process.env.JAWSDB_URL);
+        var connection = mariadb.createConnection(process.env.JAWSDB_URL);
         
 
         if (email == null || nom == null || prenom == null || password == null) {
@@ -90,8 +90,6 @@ module.exports = {
             }
           });
         },
-
-
         login: function(req, res) {
           
           // Params
@@ -263,76 +261,3 @@ module.exports = {
           });
         }
       }
-
-
-
-
-
-
-/*
-        models.User.findOne({
-            attributes: ['email'], 
-            where: { email: email}
-        })
-        .then(function(userFound){
-            if (!userFound) {
-                
-                bcrypt.hash(password, 5, function( err, bcryptedPassword){
-                    var newUser = models.User.create({
-                        email: email,
-                        username: username,
-                        password: bcryptedPassword,
-                        bio: bio,
-                        isAdmin: 0
-                    })
-                    .then(function(newUser){
-                        return res.status(201).json({
-                            'userId': newUser.id
-                        })
-                    })
-                    .catch(function(err){
-                        return res.status(500).json({ 'error': 'cannot add user'});
-                    });
-                });
-            
-        } else {
-            return res.status(409).json({ 'error': 'user already exist'}); 
-        }
-    })
-
-    },
-    login: function(req, res) {
-        var email = req.body.email; 
-        var password = req.body.password; 
-
-        if (email == null || password == null) {
-            return res.status(400).json({"error": "Paramètres Manquant"});
-        }
-
-        models.User.findOne({
-            where: { email: email}
-        })
-        .then(function(userFound){
-            if (userFound) {
-                bcrypt.compare(password,userFound.password, function( errBycrypt, resBycrypt){
-                    if (resBycrypt) {
-                        return res.status(200).json({
-                            'userId': userFound.id,
-                            'token': jwtUtils.genereateTokenForUser(userFound)
-                        });                      
-                    }
-                    else {
-                        return res.status(403).json({ 'error': 'Mot de passe Invalide'}); 
-                    }
-                });
-
-            
-        } else {
-            return res.status(404).json({ 'error': 'Utilisateur inexistant dans la db'}); 
-        }
-    })
-    .catch(function(err){
-        return res.status(500).json({ 'error': 'Impossible de vérifier lutilisateur'}); 
-    });
-    }
-} */
