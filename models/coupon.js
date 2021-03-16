@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     dateExpiration: DataTypes.DATE,
     productId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    reduction: DataTypes.FLOAT
+    reduction: DataTypes.FLOAT,
+    condition: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Coupon',

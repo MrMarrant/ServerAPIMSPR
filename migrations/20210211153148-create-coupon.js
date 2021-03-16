@@ -26,6 +26,9 @@ module.exports = {
       reduction: {
         type: Sequelize.FLOAT
       },
+      condition: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
