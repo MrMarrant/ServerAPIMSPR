@@ -81,7 +81,7 @@ module.exports = {
             .catch(function (err) {
               return res
                 .status(500)
-                .json({ error: "Impossible de trouver le coupon identifié" });
+                .json({ error: "Impossible de trouver le coupon identifié" + err });
             });
         } else {
           return res.status(404).json({ error: "Produit non trouvé" });
