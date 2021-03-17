@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Coupon.belongsTo(models.Product,{
+        through: 'Product',
+        foreignkey:'productId',
+        //as: 'Product'
+      })
     }
   };
   Coupon.init({
@@ -18,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     dateDebut: DataTypes.DATE,
     dateExpiration: DataTypes.DATE,
     productId: DataTypes.INTEGER,
-    reduction: DataTypes.FLOAT
+    userId: DataTypes.INTEGER,
+    reduction: DataTypes.FLOAT,
+    condition: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Coupon',

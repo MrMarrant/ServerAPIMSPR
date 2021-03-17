@@ -1,4 +1,5 @@
 var express = require("express");
+const couponsController = require("./routes/couponsController");
 const productsController = require("./routes/productsController");
 var usersController = require("./routes/usersController");
 
@@ -16,6 +17,11 @@ exports.router = (function(){
     apiRouter.route("/product/update/").put(productsController.updateProduct);
     apiRouter.route("/product/getall/").get(productsController.everyProduct);
     apiRouter.route("/product/get/").get(productsController.oneProduct);
+
+    // Route Coupon
+    apiRouter.route("/coupon/create/").post(couponsController.createCoupon);
+    apiRouter.route("/coupon/getall/").get(couponsController.everyCoupon);
+    apiRouter.route("/coupon/get/").get(couponsController.oneCoupon);
 
     return apiRouter;
 }) ();
