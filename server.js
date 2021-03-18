@@ -2,6 +2,10 @@ var PORT = process.env.PORT || 5000;
 var express = require("express");
 var bodyParser = require('body-parser');
 var apiRouter = require('./apiRouter').router;
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+
 
 var server = express();
 
@@ -17,6 +21,7 @@ server.get('/', function (req, res){
 
 
 server.use("/mspr/", apiRouter);
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Lance le serveur
 server.listen(PORT, function() {
