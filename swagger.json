@@ -1,0 +1,413 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Documentation du Serveur API Pour le projet MSPR",
+      "description": "En cours de développement",
+      "license": {
+        "name": "Déployé sur Heoroku",
+        "url": "https://serverapimspr.herokuapp.com/"
+      }
+    },
+    "host": "https://serverapimspr.herokuapp.com",
+    "basePath": "/mspr/",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Products",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Coupons",
+        "description": "API for users in the system"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json",
+      "application/x-www-form-urlencoded"
+    ],
+    "produces": [
+      "application/json",
+      "application/x-www-form-urlencoded"
+    ],
+    "paths": {
+      "/users/register": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Créer un nouvel utilisateur",
+          "description": "Créer un nouvel utilisateur",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Créer un nouvel utilisateur",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "produces": [
+            "application/json",
+            "application/x-www-form-urlencoded"
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Se connecter",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Permet une connexion via email et password",
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            }
+          ],
+          "produces": [
+            "application/json",
+            "application/x-www-form-urlencoded"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Users"
+              }
+            }
+          }
+        }
+      },
+      "/users/me": {
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Renvoie le token de l'utilisateur connecté",
+          "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer {TOKEN}",
+            "required": true,
+            "type": "string"
+          }
+        ],
+          "responses": {
+            "200": {
+              "description": "User is found",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update les infos de l'utilisateur",
+          "tags": [
+            "Users"
+          ],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is updated",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      
+
+      "/product/create": {
+        "post": {
+          "tags": [
+            "Products"
+          ],
+          "description": "Créer un nouveau produit",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Créer un nouveau produit",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "/product/update": {
+        "put": {
+          "tags": [
+            "Products"
+          ],
+          "summary": "Update un produit",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Users"
+              }
+            }
+          }
+        }
+      },
+      "/product/getall": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Products"
+          ],
+          "summary": "Get user with given ID",
+          "responses": {
+            "200": {
+              "description": "renvoie tout les produits existant",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "/product/get": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Products"
+          ],
+          "summary": "Renvoie un produit en fonction du nom",
+          "responses": {
+            "200": {
+              "description": "User is found",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+
+
+
+      "/coupon/create": {
+        "post": {
+          "tags": [
+            "Coupons"
+          ],
+          "description": "Créer u nouveau Coupon",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Créer u nouveau Coupon",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "/coupon/getall": {
+        "get": {
+          "tags": [
+            "Coupons"
+          ],
+          "summary": "Renvoie tout les coupons de l'utilisateur connecté",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Users"
+              }
+            }
+          }
+        }
+      },
+      "/coupon/get": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Coupons"
+          ],
+          "summary": "Get user with given ID",
+          "responses": {
+            "200": {
+              "description": "Renvoie un coupon en fonction du code et de l'utilisateur connecté",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "required": [
+          "nom",
+          "prenom",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserLogin": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "required": [
+            "nom",
+            "prix"
+          ],
+          "properties": {
+            "nom": {
+              "type": "varchar"
+            },
+            "prix": {
+              "type": "float"
+            }
+          }
+      },
+      "Coupon": {
+        "required": [
+            "code",
+            "dateDebut",
+            "dateExpiration",
+            "productId",
+            "userId",
+            "reduction",
+            "condition"
+          ],
+          "properties": {
+            "code": {
+              "type": "varchar"
+            },
+            "dateDebut": {
+              "type": "datetime"
+            },
+            "dateExpiration": {
+              "type": "datetime"
+            },
+            "productId": {
+              "type": "int"
+            },
+            "userId": {
+                "type": "int"
+              },
+              "reduction": {
+                "type": "float"
+              },
+              "condition": {
+                "type": "varchar"
+              }
+          }
+      }
+    }
+  }
