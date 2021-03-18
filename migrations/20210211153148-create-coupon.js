@@ -20,8 +20,14 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
+      userId: {
+        type: Sequelize.INTEGER
+      },
       reduction: {
         type: Sequelize.FLOAT
+      },
+      condition: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
