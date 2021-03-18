@@ -9,7 +9,7 @@
         "url": "https://serverapimspr.herokuapp.com/"
       }
     },
-    "host": "https://serverapimspr.herokuapp.com",
+    "host": "serverapimspr.herokuapp.com",
     "basePath": "/mspr/",
     "tags": [
       {
@@ -26,7 +26,7 @@
       }
     ],
     "schemes": [
-      "http"
+      "https"
     ],
     "consumes": [
       "application/json",
