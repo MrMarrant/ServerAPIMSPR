@@ -109,7 +109,8 @@
             "name": "Content-Type",
             "in": "header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "application/x-www-form-urlencoded"
           },
           {
             "name": "Authorization",
@@ -137,10 +138,24 @@
             {
               "name": "user",
               "in": "body",
-              "description": "User with new values of properties",
+              "description": "Update identifiant",
               "schema": {
-                "$ref": "#/definitions/User"
+                "$ref": "#/definitions/UserUpdate"
               }
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": "application/x-www-form-urlencoded"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "description": "Bearer {TOKEN}",
+              "required": true,
+              "type": "string"
             }
           ],
           "responses": {
@@ -343,6 +358,20 @@
             "type": "string"
           },
           "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserUpdate": {
+        "required": [
+          "nom",
+          "prenom"
+        ],
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
             "type": "string"
           }
         }
