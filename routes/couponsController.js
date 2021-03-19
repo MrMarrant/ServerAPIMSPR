@@ -94,7 +94,6 @@ module.exports = {
             dateDebut: dateDebut,
             dateExpiration: dateExpiration,
             productId: productId,
-            userId: userId,
             reduction: reduction,
             condition: condition
           }).then(function (newCoupon) {
@@ -115,66 +114,66 @@ module.exports = {
       },
     ]);
   },
-  everyCoupon: function (req, res) {
-    // Get l'authentification du Header
-    var headerAuth = req.headers["authorization"];
-    var userId = jwtUtils.getUserId(headerAuth);
+  // everyCoupon: function (req, res) {
+  //   // Get l'authentification du Header
+  //   var headerAuth = req.headers["authorization"];
+  //   var userId = jwtUtils.getUserId(headerAuth);
 
-    var fields = req.query.fields;
-    var limit = parseInt(req.query.limit);
-    var offset = parseInt(req.query.offset);
-    var order = req.query.order;
-    if (limit > ITEMS_LIMIT) {
-      limit = ITEMS_LIMIT;
-    }
+  //   var fields = req.query.fields;
+  //   var limit = parseInt(req.query.limit);
+  //   var offset = parseInt(req.query.offset);
+  //   var order = req.query.order;
+  //   if (limit > ITEMS_LIMIT) {
+  //     limit = ITEMS_LIMIT;
+  //   }
 
-    asyncLib.waterfall([
-      function (done) {
-        models.User.findOne({
-          where: { id: userId },
-        })
-          .then(function (userFound) {
-            done(null, userFound);
-          })
-          .catch(function (err) {
-            return res
-              .status(500)
-              .json({ error: "Impossible de vérifier lutilisateur" });
-          });
-      },
-      function (userFound, done) {
-        if (userFound) {
-          models.Coupon.findAll({
-            where: { userId: userId },
-            order: [order != null ? order.split(":") : ["code", "ASC"]],
-            attributes:
-              fields !== "*" && fields != null ? fields.split(",") : null,
-            limit: !isNaN(limit) ? limit : null,
-            offset: !isNaN(offset) ? offset : null,
-            include: [{
-              model: models.Product,
-              attributes: ['nom']
-             }],
-          })
-            .then(function (messages) {
-              if (messages) {
-                res.status(200).json(messages);
-              } else {
-                res.status(404).json({ error: "Coupon Non trouvé" });
-              }
-            })
-            .catch(function (err) {
-              console.log(err);
-              res.status(500).json({ error: "Champs Invalide" });
-            });
-        } else {
-          return res
-            .status(404)
-            .json({ error: "Utilisateur non trouvé ou non connecté" });
-        }
-      },
-    ]);
-  },
+  //   asyncLib.waterfall([
+  //     function (done) {
+  //       models.User.findOne({
+  //         where: { id: userId },
+  //       })
+  //         .then(function (userFound) {
+  //           done(null, userFound);
+  //         })
+  //         .catch(function (err) {
+  //           return res
+  //             .status(500)
+  //             .json({ error: "Impossible de vérifier lutilisateur" });
+  //         });
+  //     },
+  //     function (userFound, done) {
+  //       if (userFound) {
+  //         models.Coupon.findAll({
+  //           where: { userId: userId },
+  //           order: [order != null ? order.split(":") : ["code", "ASC"]],
+  //           attributes:
+  //             fields !== "*" && fields != null ? fields.split(",") : null,
+  //           limit: !isNaN(limit) ? limit : null,
+  //           offset: !isNaN(offset) ? offset : null,
+  //           include: [{
+  //             model: models.Product,
+  //             attributes: ['nom']
+  //            }],
+  //         })
+  //           .then(function (messages) {
+  //             if (messages) {
+  //               res.status(200).json(messages);
+  //             } else {
+  //               res.status(404).json({ error: "Coupon Non trouvé" });
+  //             }
+  //           })
+  //           .catch(function (err) {
+  //             console.log(err);
+  //             res.status(500).json({ error: "Champs Invalide" });
+  //           });
+  //       } else {
+  //         return res
+  //           .status(404)
+  //           .json({ error: "Utilisateur non trouvé ou non connecté" });
+  //       }
+  //     },
+  //   ]);
+  // },
   oneCoupon: function (req, res) {
     // Get l'authentification du Header
     var headerAuth = req.headers["authorization"];
@@ -233,6 +232,152 @@ module.exports = {
       },
     ]);
   },
+  everyCouponsUsers: function (req, res) {
+    // Get l'authentification du Header
+    var headerAuth = req.headers["authorization"];
+    var userId = jwtUtils.getUserId(headerAuth);
+
+    var fields = req.query.fields;
+    var limit = parseInt(req.query.limit);
+    var offset = parseInt(req.query.offset);
+    var order = req.query.order;
+    if (limit > ITEMS_LIMIT) {
+      limit = ITEMS_LIMIT;
+    }
+
+    asyncLib.waterfall([
+      function (done) {
+        models.User.findOne({
+          where: { id: userId },
+        })
+          .then(function (userFound) {
+            done(null, userFound);
+          })
+          .catch(function (err) {
+            return res
+              .status(500)
+              .json({ error: "Impossible de vérifier lutilisateur" });
+          });
+      },
+      function (userFound, done) {
+        if (userFound) {
+          models.UsersCoupons.findAll({
+            where: { userId: userId },
+            attributes: [],
+            include: [{
+              model: models.Coupon,
+              attributes: ['code',"dateDebut","dateExpiration","reduction","condition"],
+              include: [{
+                   model: models.Product,
+                   attributes: ['nom']
+                  }],
+             }],
+            //order: [order != null ? order.split(":") : ["code", "ASC"]],
+            //attributes:
+              //fields !== "*" && fields != null ? fields.split(",") : null,
+            //limit: !isNaN(limit) ? limit : null,
+            //offset: !isNaN(offset) ? offset : null,
+            // include: [{
+            //   model: models.Product,
+            //   attributes: ['nom']
+            //  }],
+          })
+            .then(function (messages) {
+              if (messages) {
+                res.status(200).json(messages);
+              } else {
+                res.status(404).json({ error: "Coupon Non trouvé" });
+              }
+            })
+            .catch(function (err) {
+              console.log(err);
+              res.status(500).json({ error: "Champs Invalide " + err });
+            });
+        } else {
+          return res
+            .status(404)
+            .json({ error: "Utilisateur non trouvé ou non connecté" });
+        }
+      },
+    ]);
+  },
+  createAssociation: function (req, res) {
+    // Get l'authentification du Header
+    var headerAuth = req.headers["authorization"];
+    var userId = jwtUtils.getUserId(headerAuth);
+
+    // Paramètres
+    var code = req.body.code;
+
+    if (
+      code.length == null
+    ) {
+      return res.status(400).json({ error: "Paramètres manquant" });
+    }
+
+    asyncLib.waterfall([
+            // Vérifie si l'utilisateur est connecté et existant
+      function (done) {
+        models.User.findOne({
+          where: { id: userId },
+        })
+          .then(function (userFound) {
+            done(null, userFound);
+          })
+          .catch(function (err) {
+            return res
+              .status(500)
+              .json({ error: "Impossible de vérifier lutilisateur ou vous n'êtes pas connecté" + err });
+          });
+      },
+      // Vérifie que le coupon existe via le code
+      function (userFound, done) {
+        if (userFound) {
+          models.Coupon.findOne({
+            where: { code: code },
+          })
+            .then(function (couponFound) {
+              if (couponFound != null) {
+                done(null, couponFound);
+              }
+              else{
+                return res
+                .status(403)
+                .json({ error: "Le coupon que vous avez scanné n'est pas reconnu" });
+              }
+            })
+            .catch(function (err) {
+              return res
+                .status(500)
+                .json({ error: "Impossible de trouver le coupon identifié" + err });
+            });
+        } else {
+          return res.status(404).json({ error: "Utilisateur non trouvé" });
+        }
+      },
+      function (couponFound, done) {
+        if (couponFound != null) {
+          models.UsersCoupons.create({
+            userId: userId,
+            couponId: couponFound.id,
+          }).then(function (newUserCoupon) {
+            done(null, newUserCoupon);
+          });
+        } else {
+          return res.status(404).json({ error: "Coupon non trouvé" });
+        }
+      },
+      function (newUserCoupon, done) {
+        if (newUserCoupon) {
+          return res.status(201).json(newUserCoupon);
+        } else {
+          return res
+            .status(500)
+            .json({ error: "Impossible de créer l'association coupon pour l'utilisateur" });
+        }
+      },
+    ]);
+  }
   /*
   updateCoupon: function (req, res) {
     var code = req.body.nom;

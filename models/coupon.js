@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignkey:'productId',
         //as: 'Product'
       });
-      Coupon.belongsToMany(models.User, { through: 'UsersCoupons',foreignkey:'couponId' });
+      //Coupon.belongsToMany(models.User, { through: 'UsersCoupons',foreignkey:'couponId',onDelete: 'CASCADE' });
+      Coupon.hasMany(models.UsersCoupons, { foreignkey:'couponId' });
     }
   };
   Coupon.init({
