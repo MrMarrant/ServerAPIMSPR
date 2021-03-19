@@ -13,7 +13,7 @@ exports.router = (function(){
     apiRouter.route("/users/me/").put(usersController.updateUserProfile);
 
     // Route Product
-    apiRouter.route("/product/createCoupon/").post(productsController.createProduct);
+    apiRouter.route("/product/create/").post(productsController.createProduct);
     apiRouter.route("/product/update/").put(productsController.updateProduct);
     apiRouter.route("/product/getall/").get(productsController.everyProduct);
     apiRouter.route("/product/get/").get(productsController.oneProduct);

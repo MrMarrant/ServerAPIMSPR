@@ -263,6 +263,7 @@ module.exports = {
 
     // Paramètres
     var code = req.body.code;
+    var couponId = null;
 
     if (code.length == null) {
       return res.status(400).json({ error: "Paramètres manquant" });
@@ -317,14 +318,37 @@ module.exports = {
       },
       function (couponFound, done) {
         if (couponFound != null) {
+          couponId = couponFound.id
+          models.UsersCoupons.findOne({
+            where: { userId: userId,
+              couponId: couponId },
+          })
+            .then(function (userscouponsFound) {
+              done(null, userscouponsFound);
+            })
+            .catch(function (err) {
+              return res
+                .status(500)
+                .json({
+                  error:
+                    "Impossible de vérifier la table UsersCoupons" +
+                    err,
+                });
+            });
+        } else {
+          return res.status(404).json({ error: "Coupon non trouvé" });
+        }
+      },
+      function (userscouponsFound, done) {
+        if (userscouponsFound == null) {
           models.UsersCoupons.create({
             userId: userId,
-            couponId: couponFound.id,
+            couponId: couponId,
           }).then(function (newUserCoupon) {
             done(null, newUserCoupon);
           });
         } else {
-          return res.status(404).json({ error: "Coupon non trouvé" });
+          return res.status(404).json({ error: "Association déjà existante" });
         }
       },
       function (newUserCoupon, done) {
