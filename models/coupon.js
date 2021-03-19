@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         through: 'Product',
         foreignkey:'productId',
         //as: 'Product'
-      })
+      });
+      //Coupon.belongsToMany(models.User, { through: 'UsersCoupons',foreignkey:'couponId',onDelete: 'CASCADE' });
+      Coupon.hasMany(models.UsersCoupons, { foreignkey:'couponId' });
     }
   };
   Coupon.init({
@@ -23,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     dateDebut: DataTypes.DATE,
     dateExpiration: DataTypes.DATE,
     productId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
     reduction: DataTypes.FLOAT,
     condition: DataTypes.STRING
   }, {

@@ -1,30 +1,22 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Coupons', {
+    await queryInterface.createTable('UsersCoupons', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      code: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        
       },
-      dateDebut: {
-        type: Sequelize.DATE
-      },
-      dateExpiration: {
-        type: Sequelize.DATE
-      },
-      productId: {
-        type: Sequelize.INTEGER
-      },
-      reduction: {
-        type: Sequelize.FLOAT
-      },
-      condition: {
-        type: Sequelize.STRING
+      couponId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        
       },
       createdAt: {
         allowNull: false,
@@ -37,6 +29,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Coupons');
+    await queryInterface.dropTable('UsersCoupons');
   }
 };

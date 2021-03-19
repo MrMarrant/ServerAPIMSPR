@@ -13,15 +13,19 @@ exports.router = (function(){
     apiRouter.route("/users/me/").put(usersController.updateUserProfile);
 
     // Route Product
-    apiRouter.route("/product/create/").post(productsController.createProduct);
+    apiRouter.route("/product/createCoupon/").post(productsController.createProduct);
     apiRouter.route("/product/update/").put(productsController.updateProduct);
     apiRouter.route("/product/getall/").get(productsController.everyProduct);
     apiRouter.route("/product/get/").get(productsController.oneProduct);
 
     // Route Coupon
     apiRouter.route("/coupon/create/").post(couponsController.createCoupon);
-    apiRouter.route("/coupon/getall/").get(couponsController.everyCoupon);
+    //apiRouter.route("/coupon/getall/").get(couponsController.everyCoupon);
     apiRouter.route("/coupon/get/").get(couponsController.oneCoupon);
+
+    // Association UsersCoupons
+    apiRouter.route("/coupon/getall/").get(couponsController.everyCouponsUsers);
+    apiRouter.route("/coupon/createAssociation/").post(couponsController.createAssociation);
 
     return apiRouter;
 }) ();
