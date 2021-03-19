@@ -29,7 +29,7 @@ module.exports = {
     }
 
     asyncLib.waterfall([
-            // Vérifie si l'utilisateur est connecté et existant
+      // Vérifie si l'utilisateur est connecté et existant
       function (done) {
         models.User.findOne({
           where: { id: userId },
@@ -40,13 +40,16 @@ module.exports = {
           .catch(function (err) {
             return res
               .status(500)
-              .json({ error: "Impossible de vérifier lutilisateur ou vous n'êtes pas connecté" });
+              .json({
+                error:
+                  "Impossible de vérifier lutilisateur ou vous n'êtes pas connecté",
+              });
           });
       },
-      // Vérifie si le produit entré existe 
+      // Vérifie si le produit entré existe
       function (userFound, done) {
         if (userFound) {
-            console.log("connexion vérifié")
+          console.log("connexion vérifié");
           models.Product.findOne({
             where: { id: productId },
           })
@@ -71,17 +74,20 @@ module.exports = {
             .then(function (couponFound) {
               if (couponFound == null) {
                 done(null, couponFound);
-              }
-              else{
+              } else {
                 return res
-                .status(403)
-                .json({ error: "Le coupon que vous scanné a déjà été scanné" });
+                  .status(403)
+                  .json({
+                    error: "Le coupon que vous scanné a déjà été scanné",
+                  });
               }
             })
             .catch(function (err) {
               return res
                 .status(500)
-                .json({ error: "Impossible de trouver le coupon identifié" + err });
+                .json({
+                  error: "Impossible de trouver le coupon identifié" + err,
+                });
             });
         } else {
           return res.status(404).json({ error: "Produit non trouvé" });
@@ -95,7 +101,7 @@ module.exports = {
             dateExpiration: dateExpiration,
             productId: productId,
             reduction: reduction,
-            condition: condition
+            condition: condition,
           }).then(function (newCoupon) {
             done(null, newCoupon);
           });
@@ -114,108 +120,47 @@ module.exports = {
       },
     ]);
   },
-  // everyCoupon: function (req, res) {
-  //   // Get l'authentification du Header
-  //   var headerAuth = req.headers["authorization"];
-  //   var userId = jwtUtils.getUserId(headerAuth);
-
-  //   var fields = req.query.fields;
-  //   var limit = parseInt(req.query.limit);
-  //   var offset = parseInt(req.query.offset);
-  //   var order = req.query.order;
-  //   if (limit > ITEMS_LIMIT) {
-  //     limit = ITEMS_LIMIT;
-  //   }
-
-  //   asyncLib.waterfall([
-  //     function (done) {
-  //       models.User.findOne({
-  //         where: { id: userId },
-  //       })
-  //         .then(function (userFound) {
-  //           done(null, userFound);
-  //         })
-  //         .catch(function (err) {
-  //           return res
-  //             .status(500)
-  //             .json({ error: "Impossible de vérifier lutilisateur" });
-  //         });
-  //     },
-  //     function (userFound, done) {
-  //       if (userFound) {
-  //         models.Coupon.findAll({
-  //           where: { userId: userId },
-  //           order: [order != null ? order.split(":") : ["code", "ASC"]],
-  //           attributes:
-  //             fields !== "*" && fields != null ? fields.split(",") : null,
-  //           limit: !isNaN(limit) ? limit : null,
-  //           offset: !isNaN(offset) ? offset : null,
-  //           include: [{
-  //             model: models.Product,
-  //             attributes: ['nom']
-  //            }],
-  //         })
-  //           .then(function (messages) {
-  //             if (messages) {
-  //               res.status(200).json(messages);
-  //             } else {
-  //               res.status(404).json({ error: "Coupon Non trouvé" });
-  //             }
-  //           })
-  //           .catch(function (err) {
-  //             console.log(err);
-  //             res.status(500).json({ error: "Champs Invalide" });
-  //           });
-  //       } else {
-  //         return res
-  //           .status(404)
-  //           .json({ error: "Utilisateur non trouvé ou non connecté" });
-  //       }
-  //     },
-  //   ]);
-  // },
   oneCoupon: function (req, res) {
     // Get l'authentification du Header
     var headerAuth = req.headers["authorization"];
     var userId = jwtUtils.getUserId(headerAuth);
-    var code = req.body.code;
-
+    var code = req.query.code;
     asyncLib.waterfall([
       function (done) {
         models.User.findOne({
           where: { id: userId },
         })
           .then(function (userFound) {
-            console.log(userFound)
+            console.log(userFound);
             done(null, userFound);
           })
           .catch(function (err) {
             return res.status(500).json({
-              error: "Impossible de vérifier lutilisateur ou non connecté" + err,
+              error:
+                "Impossible de vérifier lutilisateur ou non connecté" + err,
             });
           });
       },
       function (userFound, done) {
         if (userFound) {
           models.Coupon.findOne({
-            // as: "c",
-            attributes: ["code", "dateDebut","dateExpiration", "reduction", "condition"],
+            attributes: [
+              "code",
+              "dateDebut",
+              "dateExpiration",
+              "reduction",
+              "condition",
+            ],
             where: { code: code },
-            include: [{
-              model: models.Product,
-            //   as: 'Product',
-            attributes: ['nom']
-             }],
+            include: [
+              {
+                model: models.Product,
+                attributes: ["nom"],
+              },
+            ],
             truncate: true,
           })
             .then(function (couponFound) {
-              console.log("Type de coupon : ")
-              console.log(Object.prototype.toString.apply(couponFound))
-              console.log("code : ")
-              console.log(couponFound.code)
-              //couponFound.nomProduit = productFound.nom
-              //console.log("nomProduit : ")
-              //console.log(couponFound.nomProduit)
               if (couponFound) {
                 res.status(200).json(couponFound);
               } else {
@@ -264,17 +209,27 @@ module.exports = {
           models.UsersCoupons.findAll({
             where: { userId: userId },
             attributes: [],
-            include: [{
-              model: models.Coupon,
-              attributes: ['code',"dateDebut","dateExpiration","reduction","condition"],
-              include: [{
-                   model: models.Product,
-                   attributes: ['nom']
-                  }],
-             }],
+            include: [
+              {
+                model: models.Coupon,
+                attributes: [
+                  "code",
+                  "dateDebut",
+                  "dateExpiration",
+                  "reduction",
+                  "condition",
+                ],
+                include: [
+                  {
+                    model: models.Product,
+                    attributes: ["nom"],
+                  },
+                ],
+              },
+            ],
             //order: [order != null ? order.split(":") : ["code", "ASC"]],
             //attributes:
-              //fields !== "*" && fields != null ? fields.split(",") : null,
+            //fields !== "*" && fields != null ? fields.split(",") : null,
             //limit: !isNaN(limit) ? limit : null,
             //offset: !isNaN(offset) ? offset : null,
             // include: [{
@@ -309,14 +264,12 @@ module.exports = {
     // Paramètres
     var code = req.body.code;
 
-    if (
-      code.length == null
-    ) {
+    if (code.length == null) {
       return res.status(400).json({ error: "Paramètres manquant" });
     }
 
     asyncLib.waterfall([
-            // Vérifie si l'utilisateur est connecté et existant
+      // Vérifie si l'utilisateur est connecté et existant
       function (done) {
         models.User.findOne({
           where: { id: userId },
@@ -327,7 +280,11 @@ module.exports = {
           .catch(function (err) {
             return res
               .status(500)
-              .json({ error: "Impossible de vérifier lutilisateur ou vous n'êtes pas connecté" + err });
+              .json({
+                error:
+                  "Impossible de vérifier lutilisateur ou vous n'êtes pas connecté" +
+                  err,
+              });
           });
       },
       // Vérifie que le coupon existe via le code
@@ -339,17 +296,20 @@ module.exports = {
             .then(function (couponFound) {
               if (couponFound != null) {
                 done(null, couponFound);
-              }
-              else{
+              } else {
                 return res
-                .status(403)
-                .json({ error: "Le coupon que vous avez scanné n'est pas reconnu" });
+                  .status(403)
+                  .json({
+                    error: "Le coupon que vous avez scanné n'est pas reconnu",
+                  });
               }
             })
             .catch(function (err) {
               return res
                 .status(500)
-                .json({ error: "Impossible de trouver le coupon identifié" + err });
+                .json({
+                  error: "Impossible de trouver le coupon identifié" + err,
+                });
             });
         } else {
           return res.status(404).json({ error: "Utilisateur non trouvé" });
@@ -373,11 +333,14 @@ module.exports = {
         } else {
           return res
             .status(500)
-            .json({ error: "Impossible de créer l'association coupon pour l'utilisateur" });
+            .json({
+              error:
+                "Impossible de créer l'association coupon pour l'utilisateur",
+            });
         }
       },
     ]);
-  }
+  },
   /*
   updateCoupon: function (req, res) {
     var code = req.body.nom;
