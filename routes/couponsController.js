@@ -365,82 +365,61 @@ module.exports = {
       },
     ]);
   },
-  /*
-  updateCoupon: function (req, res) {
-    var code = req.body.nom;
-    var prix = req.body.prix;
+  everyCouponsProduct: function (req, res) {
+    // Get l'authentification du Header
     var headerAuth = req.headers["authorization"];
     var userId = jwtUtils.getUserId(headerAuth);
+    var productId = req.query.productId;
 
-    asyncLib.waterfall(
-      [
-        function (done) {
-          models.User.findOne({
-            where: { id: userId },
+    asyncLib.waterfall([
+      function (done) {
+        models.User.findOne({
+          where: { id: userId },
+        })
+          .then(function (userFound) {
+            done(null, userFound);
           })
-            .then(function (userFound) {
-              console.log(userFound);
-              done(null, userFound);
+          .catch(function (err) {
+            return res
+              .status(500)
+              .json({ error: "Impossible de vérifier lutilisateur" });
+          });
+      },
+      function (userFound, done) {
+        if (userFound) {
+          models.Coupon.findAll({
+            where: { productId: productId },
+            attributes: [
+              "code",
+              "dateDebut",
+              "dateExpiration",
+              "reduction",
+              "condition",
+            ],
+            include: [
+              {
+                model: models.Product,
+                attributes: ["nom"]
+              },
+            ],
+          })
+            .then(function (messages) {
+              if (messages) {
+                res.status(200).json(messages);
+              } else {
+                res.status(404).json({ error: "Coupon Non trouvé" });
+              }
             })
             .catch(function (err) {
-              return res
-                .status(500)
-                .json({ error: "Impossible de vérifier lutilisateur" });
+              console.log(err);
+              res.status(500).json({ error: "Champs Invalide " + err });
             });
-        },
-        function (userFound, done) {
-          if (userFound) {
-            models.Product.findOne({
-              attributes: ["id", "nom", "prix"],
-              where: { nom: nom },
-              truncate: true,
-            })
-              .then(function (productFound) {
-                console.log("productfound 2 : ");
-                console.log(productFound);
-                done(null, productFound);
-              })
-              .catch(function (err) {
-                return res.status(500).json({
-                  error: "Impossible de trouver le produit",
-                });
-              });
-          } else {
-            return res.status(404).json({ error: "Utilisateur non trouvé" });
-          }
-        },
-        function (productFound, done) {
-          console.log("productfound 3 : ");
-          console.log(productFound);
-          if (productFound) {
-            productFound
-              .update({
-                prix: prix,
-              })
-              .then(function () {
-                console.log("productfound 4 : ");
-                console.log(productFound);
-                done(productFound);
-              })
-              .catch(function (err) {
-                res.status(500).json({
-                  error: "Impossible de mettre à jour le produit : " + err,
-                });
-              });
-          } else {
-            return res.status(404).json({ error: "Produit non trouvé" });
-          }
-        },
-      ],
-      function (updateProduct) {
-        if (updateProduct) {
-          return res.status(201).json(updateProduct);
         } else {
           return res
-            .status(500)
-            .json({ error: "Impossible de mettre à jour le produit" });
+            .status(404)
+            .json({ error: "Utilisateur non trouvé ou non connecté" });
         }
-      }
-    );
-  }, */
+      },
+    ]);
+  },
 };
