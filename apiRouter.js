@@ -26,6 +26,6 @@ exports.router = (function(){
     // Association UsersCoupons
     apiRouter.route("/coupon/getall/").get(couponsController.everyCouponsUsers);
     apiRouter.route("/coupon/createAssociation/").post(couponsController.createAssociation);
-
+    apiRouter.route("/coupon/getcouponproduct/").get(couponsController.everyCouponsProduct);   
     return apiRouter;
 }) ();
