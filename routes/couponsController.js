@@ -399,7 +399,7 @@ module.exports = {
             include: [
               {
                 model: models.Product,
-                attributes: ["nom"]
+                attributes: ["nom", "prix"]
               },
             ],
           })
