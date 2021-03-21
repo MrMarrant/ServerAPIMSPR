@@ -120,7 +120,7 @@ module.exports = {
     // Get l'authentification du Header
     var headerAuth = req.headers["authorization"];
     var userId = jwtUtils.getUserId(headerAuth);
-    var nom = req.body.nom;
+    var nom = req.query.nom;
 
     asyncLib.waterfall(
       [
