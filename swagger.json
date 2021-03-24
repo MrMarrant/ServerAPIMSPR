@@ -5,7 +5,7 @@
       "title": "Documentation du Serveur API Pour le projet MSPR",
       "description": "En cours de développement",
       "license": {
-        "name": "Déployé sur Heoroku",
+        "name": "Déployé sur Heroku",
         "url": "https://serverapimspr.herokuapp.com/"
       }
     },
@@ -29,12 +29,10 @@
       "https"
     ],
     "consumes": [
-      "application/json",
-      "application/x-www-form-urlencoded"
+      "application/json"
     ],
     "produces": [
-      "application/json",
-      "application/x-www-form-urlencoded"
+      "application/json"
     ],
     "paths": {
       "/users/register": {
@@ -55,8 +53,7 @@
             }
           ],
           "produces": [
-            "application/json",
-            "application/x-www-form-urlencoded"
+            "application/json"
           ],
           "responses": {
             "200": {
@@ -85,8 +82,7 @@
             }
           ],
           "produces": [
-            "application/json",
-            "application/x-www-form-urlencoded"
+            "application/json"
           ],
           "responses": {
             "200": {
@@ -297,19 +293,13 @@
       "/product/get": {
         "parameters": [
           {
-            "name": "Product",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ProductGet"
-            }
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
+            "name": "nom",
+            "in": "query",
             "required": true,
-            "type": "string",
-            "description": "application/x-www-form-urlencoded"
+            "description": "Nom du produit",
+            "type": "string"
           },
+
           {
             "name": "Authorization",
             "in": "header",
@@ -432,13 +422,6 @@
           "description": "Récupère tout les coupons associés à l'utilisateur",
           "parameters": [          
             {
-              "name": "Content-Type",
-              "in": "header",
-              "required": true,
-              "type": "string",
-              "description": "application/x-www-form-urlencoded"
-            },
-            {
               "name": "Authorization",
               "in": "header",
               "description": "Bearer {TOKEN}",
@@ -469,11 +452,36 @@
             "type": "string"
           },
           {
-            "name": "Content-Type",
+            "name": "Authorization",
             "in": "header",
+            "description": "Bearer {TOKEN}",
             "required": true,
-            "type": "string",
-            "description": "application/x-www-form-urlencoded"
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Coupons"
+          ],
+          "summary": "Renvoie tous les coupons associé à l'utilisateur",
+          "responses": {
+            "200": {
+              "description": "Renvoie un coupon en fonction du code et de l'utilisateur connecté",
+              "schema": {
+                "$ref": "#/definitions/Coupon"
+              }
+            }
+          }
+        }
+      },
+      "/coupon/getcouponproduct": {
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "required": true,
+            "description": "id du produit",
+            "type": "string"
           },
           {
             "name": "Authorization",
@@ -487,7 +495,7 @@
           "tags": [
             "Coupons"
           ],
-          "summary": "Get user with given ID",
+          "summary": "Renvoie la liste des Coupons en fonction de l'id de l'utilisateur ainsi que de l'id du produit donné",
           "responses": {
             "200": {
               "description": "Renvoie un coupon en fonction du code et de l'utilisateur connecté",
