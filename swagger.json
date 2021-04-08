@@ -88,7 +88,7 @@
             "200": {
               "description": "OK",
               "schema": {
-                "$ref": "#/definitions/Users"
+                "$ref": "#/definitions/User"
               }
             }
           }
@@ -418,8 +418,8 @@
           "tags": [
             "Coupons"
           ],
-          "summary": "Récupère tout les coupons associés à l'utilisateur",
-          "description": "Récupère tout les coupons associés à l'utilisateur",
+          "summary": "Récupère tous les coupons associés à l'utilisateur",
+          "description": "Récupère tous les coupons associés à l'utilisateur",
           "parameters": [          
             {
               "name": "Authorization",
@@ -463,7 +463,7 @@
           "tags": [
             "Coupons"
           ],
-          "summary": "Renvoie tous les coupons associé à l'utilisateur",
+          "summary": "Renvoie le coupon en fonction du code",
           "responses": {
             "200": {
               "description": "Renvoie un coupon en fonction du code et de l'utilisateur connecté",
