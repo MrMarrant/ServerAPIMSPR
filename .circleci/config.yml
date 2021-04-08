@@ -1,6 +1,32 @@
+.anchors:
+  - &init_npm
+    before_script:
+    - npm ci
+
+
 version: 2.1
 orbs:
   heroku: circleci/heroku@0.0.10
+
+test:eslint-prettier:
+  image: node:12
+  stage: test
+
+  <<: *init_npm
+  
+  script:
+    - npm run eslint
+
+test:stylelint:
+  image: node:12
+  stage: test
+
+  <<: *init_npm
+  
+  script:
+    - npm run stylelint --silent
+
+
 workflows:
   heroku_deploy:
     jobs:
