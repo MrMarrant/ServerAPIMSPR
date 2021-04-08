@@ -26,7 +26,6 @@ test:stylelint:
   script:
     - npm run stylelint --silent
 
-
 workflows:
   heroku_deploy:
     jobs:
